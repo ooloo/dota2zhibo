@@ -56,7 +56,6 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li class="active"><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li><a href="http://dota2zhibo.com/living.php">Live</a></li>
 <li><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
 <li><a href="http://dota2zhibo.com/about.php">About</a></li>
@@ -66,19 +65,18 @@ padding-right: 10px;
 </div>
 
 <DIV id=m>
-<DIV id=fm>
-</DIV>
 
 <?php
-    include "hot.php";
-
     echo "<br><BR><BR><div class=\"left\">";
+    
+    include "live.php";
 
     $json = file_get_contents("/tmp/schedule.json");
     $array = json_decode(substr($json, 1, -1), true); 
     $lastday = "";
     //print_r($array);
-    $gamelist = array_reverse($array['list']);
+    //$gamelist = array_reverse($array['list']);
+    $gamelist = $array['list'];
 	foreach($gamelist as $arr)
     {
         $title = $arr['title'];
@@ -89,10 +87,11 @@ padding-right: 10px;
         $endtime = $arr['gameendtime'];
 
         $day = split(' ',$endtime);
+        $hour = $day[1];
         $day = $day[0];
 
-        $curTime = time() - 86400*7;
-        if(strtotime($day) <= $curTime) continue;
+        //$curTime = time() - 86400*3;
+        //if(strtotime($day) <= $curTime) continue;
 
         $weekarray=array("日","一","二","三","四","五","六");
         $week = "星期".$weekarray[date('w',strtotime($day))]; 
@@ -105,7 +104,6 @@ padding-right: 10px;
             {
                 echo "</table>";
                 echo "</li></ul></div>\n";
-
             }
             echo "<div class=\"panel panel-info\">";
             echo "<div class=\"panel-heading\">$day $week</div>\n";
@@ -114,70 +112,22 @@ padding-right: 10px;
             echo "<table class=\"table\">";
             $lastday = $day;
         }
-        echo "<tr><td width=20%>$endtime</td><td width=30%>$title</td><td width=10%>BO$bo</td>";
-        echo "<td width=40%>$aside <font color=green><b>$result</b></font> $bside</td></tr>";
+        echo "<tr><td width=10%>$hour</td><td width=30%>$title</td><td width=10%>BO$bo</td>";
+        echo "<td width=50%>$aside <font color=green><b>$result</b></font> $bside</td></tr>";
     }
-    echo "</table>";
-    echo "</li></ul></div>\n";
+    if($lastday != "")
+    {
+        echo "</table>";
+        echo "</li></ul></div>\n";
+    }
 
-    // -------------left end--------------
     echo "</div>\n";
+    // -------------left end--------------
 
-    $content = file_get_contents("/tmp/GetLeagueListing.xml");
-	$xml = simplexml_load_string($content);
-	$leagues = $xml->leagues[0];
-
-    echo "<div class=\"right\">";
-
-    echo "<div class=\"panel panel-primary\">";
-    echo "<div class=\"panel-heading\">比赛直播</div>\n";
-    echo "<ul class=\"list-group\">\n";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.douyutv.com/directory/game/DOTA2'>斗鱼tv</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huomaotv.com/live_list?gid=23'>火猫tv</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huya.com/g/dota2'>虎牙直播</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.zhanqi.tv/games/dota2'>战棋tv</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.fengyunzhibo.com/p/games/dota2'>风云直播</a></li>";
-	echo "</ul></div>";
-
-    echo "<div class=\"panel panel-danger\">";
-    echo "<div class=\"panel-heading\">热门菠菜</div>\n";
-    echo "<ul class=\"list-group\">\n";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://bet.sgamer.com/game/4'>sgamer竞猜中心</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.dota2lounge.com/'>d2l菠菜中心</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.dota2sp.com/gmatchs'>dota2sp竞猜中心</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://bet.replays.net/'>replays竞猜中心</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://moba.uuu9.com/myz_jcsg-game.html'>moba菠菜中心</a></li>";
-	echo "</ul></div>";
-
-    echo "<div class=\"panel panel-success\">";
-    echo "<div class=\"panel-heading\">热门官方联赛</div>\n";
-    echo "<ul class=\"list-group\">\n";
-
-	foreach($leagues as $league)
-	{
-        $l = "$league->leagueid";
-        if($hot["$l"] >= 1)
-		    $name = $league->name;
-        else
-            continue;
-
-		echo "<li class=\"list-group-item\">";
-		echo "<p><font color='green'>联赛id:$l</font></p>\n";
-        //echo "<a target='_blank' href='$league->tournament_url' title='$league->description'>$name</a>\n";
-        echo "<a target='_blank' href='$league->tournament_url'>$name</a>\n";
-		echo "</li>";
-	}
-	echo "</ul></div></div>";
+    include "right.php";
 ?>
 
-<BR><BR>
-<DIV class="bottom">
-<p id="lh"><a href="http://www.dota2zhibo.com/">加入dota2zhibo</a> | <a href="http://www.dota2zhibo.com">dota2风云榜</a> | <a href="http://www.dota2zhibo.com">关于dota2zhibo</a> | <a href="http://www.dota2zhibo.com">About dota2zhibo</a></p><p id="cp">&copy;2014 dota2zhibo.com <a href="http://www.dota2zhibo.com">使用搜索前必读</a> <a href="http://www.miibeian.gov.cn" target="_blank">京ICP备14027394号</a> <img src="http://gimg.baidu.com/img/gs.gif"></p><br>
 </DIV>
-</DIV>
-
-<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

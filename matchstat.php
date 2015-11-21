@@ -9,9 +9,9 @@ foreach($xml->heroes->hero as $hero)
 $stat = array();
 $count = array();
 $lea = array();
-$hot = array();
+$hot = array("2733");
 
-$seed = array("5","7","15","20","36","46","111474","726228","999689","1333179","1375614");
+//$seed = array("5","7","15","20","36","46","111474","726228","999689","1333179","1375614");
 
 $team = array(
         "20" => "TongFu|",
@@ -39,6 +39,10 @@ foreach($file as $line)
     $filename = str_replace("\n", "", $line);
     $content = file_get_contents("/tmp/$filename");
 
+    if(empty($content)) continue;
+
+    echo "/tmp/$filename\n";
+
     $xml = simplexml_load_string($content);
 
     if(empty($xml->radiant_name) || empty($xml->dire_name))
@@ -46,11 +50,12 @@ foreach($file as $line)
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
 
-    if(array_key_exists("$xml->radiant_team_id", $team)
-            || array_key_exists("$xml->dire_team_id", $team))
-    {
-        array_push($hot, "$xml->leagueid");
-    }
+    //if(array_key_exists("$xml->radiant_team_id", $team)
+    //        || array_key_exists("$xml->dire_team_id", $team))
+    //{
+    //    array_push($hot, "$xml->leagueid");
+    //}
+    array_push($hot, "$xml->leagueid");
 
     foreach($xml->players->player as $player)
     {
