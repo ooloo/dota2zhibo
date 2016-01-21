@@ -53,7 +53,8 @@ foreach($xml->games->game as $game)
         $bo = 1;
 
     echo "<tr>";
-    echo "<td width=10%>$hour</td><td width=30%>$ln($game->league_tier)</td><td width=10%>BO$bo</td>";
+    //echo "<td width=10%>$hour</td><td width=30%>$ln($game->league_tier)</td><td width=10%>BO$bo</td>";
+    echo "<td width=10%>$hour</td><td width=30%>$ln</td><td width=10%>BO$bo</td>";
     echo "<td width=60%>$r<font color=green><b>&nbsp;.VS&nbsp;</b></font>$d</td>";
     echo "</tr>";
 }

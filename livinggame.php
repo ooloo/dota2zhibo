@@ -8,6 +8,7 @@ $content = file_get_contents("/tmp/GetLiveLeagueGames.xml");
 if(empty($content)) exit;
 
 $arr = $hot;
+$series_id = array();
 
 $xml = simplexml_load_string($content);
 
@@ -32,33 +33,42 @@ if(!empty($arr))
 {
     foreach($arr as $id => $num)
     {
-        $l_url = "\"$head/GetMatchHistory/$key&league_id=$id\"";
-        file_put_contents("/tmp/wget.ready", "wget -t3 -T30 -O /tmp/$id.xml $l_url\n", FILE_APPEND);
-        if(!file_exists("/tmp/$id.xml"))
+        $l_url = "$head/GetMatchHistory/$key&league_id=$id";
+
+        $content = file_get_contents("$l_url");
+        $conLen = strlen($content);
+        echo "league_id=$id ($conLen)\n";
+
+        if($conLen < 128)
         {
             continue;
         }
-        $content = file_get_contents("/tmp/$id.xml");
-        if(strlen($content) < 8)
-        {
-            continue;
-        }
+
+        file_put_contents("/tmp/$id.xml", "$content");
+
         $xml = simplexml_load_string($content);
 
         $show_num = 0;
         foreach($xml->matches->match as $match)
         {
-            if(++$show_num >= 60)
-                break;
+            $series_id["$match->match_id"] = "$match->series_id";
 
-            $m_url = "\"$head/GetMatchDetails/$key&match_id=$match->match_id\"";
+            if(++$show_num >= 50) break;
+
+            $m_url = "$head/GetMatchDetails/$key&match_id=$match->match_id";
             $match_file = "/tmp/$match->match_id.xml";
             if(!file_exists($match_file) || filesize($match_file) < 1024)
             {
-                file_put_contents("/tmp/wget.ready", "wget -t3 -T30 -O $match_file $m_url\n", FILE_APPEND);
+                echo "$match_file\n";
+                $content = file_get_contents("$m_url");
+                file_put_contents("$match_file", "$content");
             }
         }
     }
 }
+
+$handle = fopen("./series.php", "w+");
+fwrite($handle, '<?php'.chr(10).'$series='.var_export ($series_id,true).';'.chr(10).'?>');
+fclose($handle);
 
 ?>
