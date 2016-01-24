@@ -58,7 +58,7 @@ padding-right: 10px;
 <li class="active"><a href="http://dota2zhibo.com/index.php">Home</a></li>
 <li><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
-<li><a href="http://dota2zhibo.com/about.php">About</a></li>
+<li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
 </div>

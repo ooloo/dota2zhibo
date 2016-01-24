@@ -147,7 +147,7 @@ padding-right: 10px;
     $file = file("/tmp/history_filelist") or exit("Unable to open file!");
     foreach($file as $line)
     {
-        if($show_lastmatch_num >= 10)
+        if($show_lastmatch_num >= 15)
             break;
 
         $filename = str_replace("\n", "", $line);
