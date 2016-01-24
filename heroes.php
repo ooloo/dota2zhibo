@@ -58,7 +58,7 @@ padding-right: 10px;
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
 <li><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li class="active"><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
-<li><a href="http://dota2zhibo.com/about.php">About</a></li>
+<li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
 </div>
@@ -78,7 +78,7 @@ padding-right: 10px;
     echo "<br><BR><BR><div class=\"left\">";
 
     echo "<div class=\"panel panel-info\">";
-    echo "<div class=\"panel-heading\">最近一周职业联赛热门英雄TOP25</div>\n";
+    echo "<div class=\"panel-heading\">最近一周职业联赛热门英雄TOP30</div>\n";
     echo "<ul class=\"list-group\">\n";
     echo "<li class=\"list-group-item\">\n";
     echo "<table class=\"table\">";
@@ -88,7 +88,7 @@ padding-right: 10px;
     $show_hero_num = 0;
     foreach($count as $hero => $picknum)
     {
-        if($show_hero_num++ >= 25)
+        if($show_hero_num++ >= 30)
             break;
         $show_num = 0;
         $item_num = "";

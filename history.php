@@ -58,7 +58,7 @@ padding-right: 10px;
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
 <li class="active"><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
-<li><a href="http://dota2zhibo.com/about.php">About</a></li>
+<li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
 </div>
@@ -70,6 +70,8 @@ padding-right: 10px;
     include "lea.php";
     include "hot.php";
     include "team.php";
+
+    $regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
 
     echo "<br><BR><BR><div class=\"left\">";
 
@@ -87,6 +89,7 @@ padding-right: 10px;
         global $lea;
         global $hot;
         global $team;
+        global $regex;
         global $heroes_arr;
         global $show_lastmatch_num;
         $xml = simplexml_load_string($matchXmlContent);
@@ -100,10 +103,13 @@ padding-right: 10px;
         if(empty($xml->radiant_name) || empty($xml->dire_name))
             return;
 
-        $win_lose = "win";
+        //if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
+          //  return;
+
+        $win_lose = "1:0";
         if($xml->radiant_win == "false")
         {
-            $win_lose = "lose";
+            $win_lose = "0:1";
         }
 
         $ln = $lea["$xml->leagueid"];
@@ -147,7 +153,7 @@ padding-right: 10px;
     $file = file("/tmp/history_filelist") or exit("Unable to open file!");
     foreach($file as $line)
     {
-        if($show_lastmatch_num >= 15)
+        if($show_lastmatch_num >= 10)
             break;
 
         $filename = str_replace("\n", "", $line);
