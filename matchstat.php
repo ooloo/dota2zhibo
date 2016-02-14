@@ -144,15 +144,16 @@ foreach($kda as $k => $v)
     $all = 0;
     foreach($v as $hero => $h_arr)
     {
-        $all = $h_arr["all"];
-        break;
+        $all = $all + $h_arr["all"];
     }
 
-    if($all < 5)
+    if($all < 10)
         unset($kda[$k]);
     else
         $kda[$k] = array_splice($v, 0, 3);
 }
+
+ksort($kda);
 
 
 $handle = fopen("./stat.php", "w+");

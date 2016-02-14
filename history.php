@@ -76,28 +76,36 @@ padding-right: 10px;
         global $kda;
 
         echo "<div class=\"panel panel-info\">";
-        echo "<div class=\"panel-heading\">$k</div>\n";
+        echo "<div class=\"panel-heading\">$k 出场英雄TOP3</div>\n";
         echo "<ul class=\"list-group\">\n";
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
         echo "<tr>";
-        echo "<th width=20%>hero</th>";
-        echo "<th width=20%>win</th>";
-        echo "<th width=15%>lose</th>";
-        echo "<th width=15%>kill</th>";
-        echo "<th width=15%>death</th>";
-        echo "<th width=15%>assist</th>";
+        echo "<th width=20%>Hero</th>";
+        echo "<th width=10%>KDA</th>";
+        echo "<th width=10%>Matches</th>";
+        echo "<th width=10%>Win</th>";
+        echo "<th width=10%>Lose</th>";
+        echo "<th width=10%>Kill</th>";
+        echo "<th width=10%>Death</th>";
+        echo "<th width=10%>Assist</th>";
         echo "</tr>";
         foreach($v as $hero => $h_arr)
         {
+            $all = $h_arr["all"];
             $w = $h_arr["w"];
             $l = $h_arr["l"];
             $k = $h_arr["k"];
             $d = $h_arr["d"];
             $a = $h_arr["a"];
 
+            $kda = ($k+$a)/$d;
+            $kda = round($kda, 2);
+
             echo "<tr>";
             echo "<td><font color=blue size=2>$hero</font></td>";
+            echo "<td>$kda</td>";
+            echo "<td>$all</td>";
             echo "<td>$w</td>";
             echo "<td>$l</td>";
             echo "<td>$k</td>";
