@@ -10,6 +10,7 @@ $stat = array();
 $count = array();
 $lea = array();
 $hot = array();
+$kda = array();
 
 $team = array(
         "20" => "TongFu|",
@@ -31,6 +32,9 @@ $team = array(
         "46" => "Team Empire",
         "1075534" => "Orange Esports Dota",
         );
+
+$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
+
 $file = file("/tmp/matches_filelist") or exit("Unable to open file!");
 foreach($file as $line)
 {
@@ -47,9 +51,50 @@ foreach($file as $line)
         continue;
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
+    if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
+        continue;
 
     array_push($hot, "$xml->leagueid");
 
+    //history
+    $odbh = dba_open("/tmp/official_account.db", "r", "db4");
+    foreach($xml->players->player as $player)
+    {
+        $key = dba_fetch("$player->account_id", $odbh);
+        if($key == "") continue;
+
+        $name = $heroes_arr["$player->hero_id"];
+
+        if(!isset($kda["$key"]))
+            $kda["$key"] = array();
+
+        if(!isset($kda["$key"]["$name"]))
+            $kda["$key"]["$name"] = array(
+                    "all" => 0,
+                    "w" => 0,
+                    "l" => 0,
+                    "k" => 0,
+                    "d" => 0,
+                    "a" => 0,
+                    );
+
+        $kda["$key"]["$name"]["all"] = ++$kda["$key"]["$name"]["all"];
+
+        $player_slot = "$player->player_slot";
+        if(($player_slot < 10 && $xml->radiant_win == "true")
+                || ($player_slot > 120 && $xml->radiant_win == "false"))
+            $kda["$key"]["$name"]["w"] = ++$kda["$key"]["$name"]["w"];
+        else
+            $kda["$key"]["$name"]["l"] = ++$kda["$key"]["$name"]["l"];
+
+        $kda["$key"]["$name"]["k"] = $kda["$key"]["$name"]["k"] + $player->kills;
+        $kda["$key"]["$name"]["d"] = $kda["$key"]["$name"]["d"] + $player->deaths;
+        $kda["$key"]["$name"]["a"] = $kda["$key"]["$name"]["a"] + $player->assists;
+        arsort($kda["$key"]);
+    }
+    dba_close($odbh);
+
+    // heroes
     foreach($xml->players->player as $player)
     {
         $name = $heroes_arr["$player->hero_id"];
@@ -92,9 +137,23 @@ foreach($leagues as $league)
     $lea["$l"] =  "$name";
 }
 
-//print_r($stat);
-//ksort($lea);
 arsort($count);
+
+foreach($kda as $k => $v)
+{
+    $all = 0;
+    foreach($v as $hero => $h_arr)
+    {
+        $all = $h_arr["all"];
+        break;
+    }
+
+    if($all < 5)
+        unset($kda[$k]);
+    else
+        $kda[$k] = array_splice($v, 0, 3);
+}
+
 
 $handle = fopen("./stat.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$stat='.var_export ($stat,true).';'.chr(10).'?>');
@@ -114,6 +173,10 @@ fclose($handle);
 
 $handle = fopen("./lea.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$lea='.var_export ($lea,true).';'.chr(10).'?>');
+fclose($handle);
+
+$handle = fopen("./kda.php", "w+");
+fwrite($handle, '<?php'.chr(10).'$kda='.var_export ($kda,true).';'.chr(10).'?>');
 fclose($handle);
 
 ?>

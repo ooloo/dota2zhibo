@@ -56,7 +56,7 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li class="active"><a href="http://dota2zhibo.com/history.php">History</a></li>
+<li class="active"><a href="http://dota2zhibo.com/history.php">Player</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
 <li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
@@ -67,98 +67,50 @@ padding-right: 10px;
 <DIV id=m>
 
 <?php
-    include "lea.php";
-    include "hot.php";
-    include "team.php";
-
-    $regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
+    include "kda.php";
 
     echo "<br><BR><BR><div class=\"left\">";
 
-    $content = file_get_contents("/tmp/heroes.xml");
-    $xml = simplexml_load_string($content);
-    $show_lastmatch_num = 0;
-    $heroes_arr = array();
-    foreach($xml->heroes->hero as $hero)
+    function show_account($k, $v)
     {
-        $heroes_arr["$hero->id"] = $hero->localized_name;
-    }
+        global $kda;
 
-    function show_match($matchXmlContent)
-    {
-        global $lea;
-        global $hot;
-        global $team;
-        global $regex;
-        global $heroes_arr;
-        global $show_lastmatch_num;
-        $xml = simplexml_load_string($matchXmlContent);
-
-        if(!array_key_exists("$xml->leagueid", $hot))
-            return;
-
-        if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
-            return;
-
-        if(empty($xml->radiant_name) || empty($xml->dire_name))
-            return;
-
-        //if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
-          //  return;
-
-        $win_lose = "1:0";
-        if($xml->radiant_win == "false")
-        {
-            $win_lose = "0:1";
-        }
-
-        $ln = $lea["$xml->leagueid"];
-        $d2 = date('Y-m-d H:i:s', (int)($xml->start_time));
         echo "<div class=\"panel panel-info\">";
-        echo "<div class=\"panel-heading\">{$xml->radiant_name} <font color=black><b>$win_lose</b></font> {$xml->dire_name}";
-        echo "&nbsp;&nbsp;&nbsp;(联赛id:$xml->leagueid,比赛id:$xml->match_id)&nbsp;&nbsp;[$d2]</div>\n";
+        echo "<div class=\"panel-heading\">$k</div>\n";
         echo "<ul class=\"list-group\">\n";
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
-        echo "<tr><th width=40%><font color=green>$ln</font></th>";
-        echo "<th width=20%>英雄</th>";
-        echo "<th width=20%>击杀/死亡/助攻</th>";
-        echo "<th width=20%>每分钟金钱/经验</th></tr>";
-        $dbh = dba_open("/tmp/account.db", "r", "db4");
-        $odbh = dba_open("/tmp/official_account.db", "r", "db4");
-        foreach($xml->players->player as $player)
+        echo "<tr>";
+        echo "<th width=20%>hero</th>";
+        echo "<th width=20%>win</th>";
+        echo "<th width=15%>lose</th>";
+        echo "<th width=15%>kill</th>";
+        echo "<th width=15%>death</th>";
+        echo "<th width=15%>assist</th>";
+        echo "</tr>";
+        foreach($v as $hero => $h_arr)
         {
+            $w = $h_arr["w"];
+            $l = $h_arr["l"];
+            $k = $h_arr["k"];
+            $d = $h_arr["d"];
+            $a = $h_arr["a"];
+
             echo "<tr>";
-            $name = $heroes_arr["$player->hero_id"];
-            $account_name = dba_fetch("$player->account_id", $odbh);
-            if($account_name == "")
-            {
-                $account_name = dba_fetch("$player->account_id", $dbh);
-            }
-            if($player->player_slot < 5)
-                echo "<td><font color=blue size=2>$account_name</font></td>";
-            else
-                echo "<td><font color=red size=2>$account_name</font></td>";
-            echo "<td>$name($player->level)</td>";
-            echo "<td>$player->kills/$player->deaths/$player->assists</td>";
-            //echo "<td>$player->gold_spent</td>";
-            echo "<td>$player->gold_per_min/$player->xp_per_min</td></tr>";
+            echo "<td><font color=blue size=2>$hero</font></td>";
+            echo "<td>$w</td>";
+            echo "<td>$l</td>";
+            echo "<td>$k</td>";
+            echo "<td>$d</td>";
+            echo "<td>$a</td>";
+            echo "</tr>";
         }
-        dba_close($odbh);
-        dba_close($dbh);
         echo "</table></li></ul></div>\n";
-        $show_lastmatch_num++;
     }
 
-    $file = file("/tmp/history_filelist") or exit("Unable to open file!");
-    foreach($file as $line)
+    foreach($kda as $k => $v)
     {
-        if($show_lastmatch_num >= 10)
-            break;
-
-        $filename = str_replace("\n", "", $line);
-        $content = file_get_contents("/tmp/$filename");
-        show_match($content);
+        show_account($k, $v);
     }
 
     echo "</div>\n";
