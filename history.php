@@ -81,15 +81,13 @@ padding-right: 10px;
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
         echo "<tr>";
-        echo "<th width=10%>Hero</th>";
-        echo "<th width=10%>Match</th>";
-        echo "<th width=10%>Winrate</th>";
-        echo "<th width=10%>KDA</th>";
-        echo "<th width=10%>Win</th>";
-        echo "<th width=10%>Lose</th>";
-        echo "<th width=10%>Kill</th>";
-        echo "<th width=10%>Death</th>";
-        echo "<th width=10%>Assist</th>";
+        echo "<th width=15%>Hero</th>";
+        echo "<th width=15%>Matches</th>";
+        echo "<th width=15%>Winrate</th>";
+        echo "<th width=15%>KDA</th>";
+        echo "<th width=13%>Kill</th>";
+        echo "<th width=13%>Death</th>";
+        echo "<th width=13%>Assist</th>";
         echo "</tr>";
         foreach($v as $hero => $h_arr)
         {
@@ -103,15 +101,16 @@ padding-right: 10px;
             $kda = ($k+$a)/$d;
             $kda = round($kda, 2);
 
+            $wr = $w/$all * 100;
+            $wr = round($wr, 0);
+
             echo "<tr>";
             echo "<td><img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
             echo " width='48' /></td>\n";
 
-            echo "<td>$all</td>";
-            echo "<td>20%</td>";
+            echo "<td>$all-$w-$l</td>";
+            echo "<td>$wr%</td>";
             echo "<td>$kda</td>";
-            echo "<td>$w</td>";
-            echo "<td>$l</td>";
             echo "<td>$k</td>";
             echo "<td>$d</td>";
             echo "<td>$a</td>";
