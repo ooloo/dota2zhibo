@@ -76,14 +76,15 @@ padding-right: 10px;
         global $kda;
 
         echo "<div class=\"panel panel-info\">";
-        echo "<div class=\"panel-heading\">$k 出场英雄TOP3</div>\n";
+        echo "<div class=\"panel-heading\">$k &nbsp;&nbsp;一周出场英雄TOP3</div>\n";
         echo "<ul class=\"list-group\">\n";
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
         echo "<tr>";
-        echo "<th width=20%>Hero</th>";
+        echo "<th width=10%>Hero</th>";
+        echo "<th width=10%>Match</th>";
+        echo "<th width=10%>Winrate</th>";
         echo "<th width=10%>KDA</th>";
-        echo "<th width=10%>Matches</th>";
         echo "<th width=10%>Win</th>";
         echo "<th width=10%>Lose</th>";
         echo "<th width=10%>Kill</th>";
@@ -103,9 +104,12 @@ padding-right: 10px;
             $kda = round($kda, 2);
 
             echo "<tr>";
-            echo "<td><font color=blue size=2>$hero</font></td>";
-            echo "<td>$kda</td>";
+            echo "<td><img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
+            echo " width='48' /></td>\n";
+
             echo "<td>$all</td>";
+            echo "<td>20%</td>";
+            echo "<td>$kda</td>";
             echo "<td>$w</td>";
             echo "<td>$l</td>";
             echo "<td>$k</td>";

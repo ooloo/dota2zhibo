@@ -2,9 +2,10 @@
 $content = file_get_contents("/tmp/heroes.xml");
 $xml = simplexml_load_string($content);
 $heroes_arr = array("0" => "NULL");
+$len = strlen("npc_dota_hero_");
 foreach($xml->heroes->hero as $hero)
 {
-    $heroes_arr["$hero->id"] = $hero->localized_name;
+    $heroes_arr["$hero->id"] = substr($hero->name, $len);
 }
 $stat = array();
 $count = array();

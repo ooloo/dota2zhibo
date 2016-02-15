@@ -56,7 +56,7 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li><a href="http://dota2zhibo.com/history.php">History</a></li>
+<li><a href="http://dota2zhibo.com/history.php">Player</a></li>
 <li class="active"><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
 <li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
@@ -93,7 +93,10 @@ padding-right: 10px;
         $show_num = 0;
         $item_num = "";
         $item_arr = $stat["$hero"];
-        echo "<tr><td>$hero</td><td>$picknum</td><td>";
+        echo "<tr><td>";
+        echo "<img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
+        echo " width='59' /></td>\n";
+        echo "<td>$picknum</td><td>";
         foreach($item_arr as $itemid => $usenum)
         {
             if($show_num >= 6)
