@@ -81,7 +81,7 @@ padding-right: 10px;
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
         echo "<tr>";
-        echo "<th width=15%>Hero</th>";
+        echo "<th width=15%>Heroes</th>";
         echo "<th width=15%>Matches</th>";
         echo "<th width=15%>Winrate</th>";
         echo "<th width=15%>KDA</th>";

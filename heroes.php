@@ -82,21 +82,38 @@ padding-right: 10px;
     echo "<ul class=\"list-group\">\n";
     echo "<li class=\"list-group-item\">\n";
     echo "<table class=\"table\">";
-    //echo "<tr><th width=20%>英雄</th><th width=20%>出场</th><th width=60%>热门装备</th><th width=20%>对应装备次数</th></tr>";
-    echo "<tr><th width=20%>英雄</th><th width=20%>出场次数</th><th width=60%>一周热门装备</th></tr>";
+    echo "<tr><th width=12%>Heroes</th><th width=12%>Matches</th><th width=12%>Winrate</th>";
+    echo "<th width=12%>Kda</th><th width=50%>一周热门装备</th></tr>";
 
     $show_hero_num = 0;
-    foreach($count as $hero => $picknum)
+    foreach($count as $hero => $summary)
     {
         if($show_hero_num++ >= 30)
             break;
+
+        $picknum = $summary["all"];
+        $w = $summary["w"];
+        $l = $summary["l"];
+        $k = $summary["k"];
+        $d = $summary["d"];
+        $a = $summary["a"];
+
+        $wr = $w/$picknum * 100;
+        $wr = round($wr, 0);
+
+        $kda = ($k+$a)/$d;
+        $kda = round($kda, 2);
+
         $show_num = 0;
         $item_num = "";
         $item_arr = $stat["$hero"];
         echo "<tr><td>";
         echo "<img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
         echo " width='59' /></td>\n";
-        echo "<td>$picknum</td><td>";
+        echo "<td>$picknum-$w</td>";
+        echo "<td>$wr%</td>";
+        echo "<td>$kda</td>";
+        echo "<td>";
         foreach($item_arr as $itemid => $usenum)
         {
             if($show_num >= 6)

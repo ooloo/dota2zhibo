@@ -101,8 +101,6 @@ foreach($file as $line)
         $name = $heroes_arr["$player->hero_id"];
         if(!isset($stat["$name"]))
             $stat["$name"] = array();
-        if(!isset($count["$name"]))
-            $count["$name"] = "0";
         $arr = array(
                 "$player->item_0",
                 "$player->item_1",
@@ -121,9 +119,29 @@ foreach($file as $line)
                     $stat["$name"]["$item"] = ++$stat["$name"]["$item"];
             }
         }
-        $i = $count["$name"]+1;
-        $count["$name"] = $i;
         arsort($stat["$name"]);
+
+        if(!isset($count["$name"]))
+            $count["$name"] = array(
+                    "all" => 0,
+                    "w" => 0,
+                    "l" => 0,
+                    "k" => 0,
+                    "d" => 0,
+                    "a" => 0,
+                    );
+        $count["$name"]["all"] = ++$count["$name"]["all"];
+
+        $player_slot = "$player->player_slot";
+        if(($player_slot < 10 && $xml->radiant_win == "true")
+                || ($player_slot > 120 && $xml->radiant_win == "false"))
+            $count["$name"]["w"] = ++$count["$name"]["w"];
+        else
+            $count["$name"]["l"] = ++$count["$name"]["l"];
+
+        $count["$name"]["k"] = $count["$name"]["k"] + $player->kills;
+        $count["$name"]["d"] = $count["$name"]["d"] + $player->deaths;
+        $count["$name"]["a"] = $count["$name"]["a"] + $player->assists;
     }
 }
 
