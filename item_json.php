@@ -23,4 +23,5 @@ fclose($handle);
 $handle = fopen("./items_img.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$items_img='.var_export (array_unique($items_img),true).';'.chr(10).'?>');
 fclose($handle);
+
 ?>

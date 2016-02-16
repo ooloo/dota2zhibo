@@ -1,7 +1,6 @@
 <?php
 
 $official_account = array();
-
 $key = "v1/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
 $head = "https://api.steampowered.com/IDOTA2Fantasy_570/GetPlayerOfficialInfo";
 
