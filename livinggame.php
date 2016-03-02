@@ -51,9 +51,13 @@ if(!empty($arr))
         $show_num = 0;
         foreach($xml->matches->match as $match)
         {
+            if(++$show_num >= 50) break;
+
             $series_id["$match->match_id"] = "$match->series_id";
 
-            if(++$show_num >= 50) break;
+            $now = time();
+            $mtime = "$match->start_time";
+            if($now - $mtime > 86400*8) continue;
 
             $m_url = "$head/GetMatchDetails/$key&match_id=$match->match_id";
             $match_file = "/tmp/$match->match_id.xml";

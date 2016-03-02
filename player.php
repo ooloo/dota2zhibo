@@ -56,10 +56,10 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li><a href="http://dota2zhibo.com/player.php">Player</a></li>
+<li class="active"><a href="http://dota2zhibo.com/player.php">Player</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
-<li class="active"><a href="http://dota2zhibo.com/history.php">History</a></li>
-<li><a href="http://dota2zhibo.com/about.php">About</a></li>
+<li><a href="http://dota2zhibo.com/history.php">History</a></li>
+<li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
 </div>
@@ -68,9 +68,62 @@ padding-right: 10px;
 <DIV id=m>
 
 <?php
+    include "kda.php";
+
     echo "<br><BR><BR><div class=\"left\">";
 
-    include "his.php";
+    function show_account($k, $v)
+    {
+        global $kda;
+
+        echo "<div class=\"panel panel-info\">";
+        echo "<div class=\"panel-heading\">$k &nbsp;&nbsp;一周出场英雄TOP3</div>\n";
+        echo "<ul class=\"list-group\">\n";
+        echo "<li class=\"list-group-item\">\n";
+        echo "<table class=\"table\">";
+        echo "<tr>";
+        echo "<th width=15%>Heroes</th>";
+        echo "<th width=15%>Matches</th>";
+        echo "<th width=15%>Winrate</th>";
+        echo "<th width=15%>KDA</th>";
+        echo "<th width=13%>Kill</th>";
+        echo "<th width=13%>Death</th>";
+        echo "<th width=13%>Assist</th>";
+        echo "</tr>";
+        foreach($v as $hero => $h_arr)
+        {
+            $all = $h_arr["all"];
+            $w = $h_arr["w"];
+            $l = $h_arr["l"];
+            $k = $h_arr["k"];
+            $d = $h_arr["d"];
+            $a = $h_arr["a"];
+
+            $kda = ($k+$a)/$d;
+            $kda = round($kda, 2);
+
+            $wr = $w/$all * 100;
+            $wr = round($wr, 0);
+
+            echo "<tr>";
+            echo "<td><img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
+            echo " width='48' /></td>\n";
+
+            echo "<td>$all-$w-$l</td>";
+            echo "<td>$wr%</td>";
+            echo "<td>$kda</td>";
+            echo "<td>$k</td>";
+            echo "<td>$d</td>";
+            echo "<td>$a</td>";
+            echo "</tr>";
+        }
+        echo "</table></li></ul></div>\n";
+    }
+
+    foreach($kda as $k => $v)
+    {
+        show_account($k, $v);
+    }
 
     echo "</div>\n";
     // -------------left end--------------

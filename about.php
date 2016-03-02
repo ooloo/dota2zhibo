@@ -56,8 +56,9 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li><a href="http://dota2zhibo.com/history.php">Player</a></li>
+<li><a href="http://dota2zhibo.com/player.php">Player</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
+<li><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li class="active"><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
@@ -70,6 +71,13 @@ padding-right: 10px;
     include "hot.php";
 
     echo "<br><BR><BR><div class=\"left\">";
+
+    echo "<div class=\"panel panel-info\">";
+    echo "<div class=\"panel-heading\">官方更新日志传送门</div>";
+    echo "<div class=\"panel-body\">";
+    echo "<ul><a href='http://www.dota2.com.cn/news/gamepost/news_update/index.htm' target='_blank'>
+    http://www.dota2.com.cn/news/gamepost/news_update/index.htm</a></ul>";
+    echo "</div></div>";
 
     echo "<div class=\"panel panel-info\">";
     echo "<div class=\"panel-heading\">1月22日更新日志：修复视角居中问题</div>";

@@ -56,8 +56,9 @@ padding-right: 10px;
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
 <li><a href="http://dota2zhibo.com/index.php">Home</a></li>
-<li><a href="http://dota2zhibo.com/history.php">Player</a></li>
+<li><a href="http://dota2zhibo.com/player.php">Player</a></li>
 <li class="active"><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
+<li><a href="http://dota2zhibo.com/history.php">History</a></li>
 <li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
@@ -83,7 +84,7 @@ padding-right: 10px;
     echo "<li class=\"list-group-item\">\n";
     echo "<table class=\"table\">";
     echo "<tr><th width=12%>Heroes</th><th width=12%>Matches</th><th width=12%>Winrate</th>";
-    echo "<th width=12%>Kda</th><th width=50%>一周热门装备</th></tr>";
+    echo "<th width=12%>KDA</th><th width=50%>一周热门装备</th></tr>";
 
     $show_hero_num = 0;
     foreach($count as $hero => $summary)

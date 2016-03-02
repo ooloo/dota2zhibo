@@ -29,17 +29,21 @@ foreach($file as $line)
         $star_team = 1;
     }
 
+
+    if(array_key_exists("$xml->match_id",$series))
+        $series_id = $series["$xml->match_id"];
+    else
+        continue;
+
     if(strcmp($xml->radiant_name,$xml->dire_name) > 0)
     {
-        $key = $series["$xml->match_id"];
-        //$key = "$xml->leagueid,$xml->dire_name,$xml->radiant_name";
+        $key = "$xml->leagueid,$series_id,$xml->dire_name,$xml->radiant_name";
         if($xml->radiant_win == "true") $score = 1; else $score = 10;
         $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$xml->dire_name,$xml->radiant_name";
     }
     else
     {
-        $key = $series["$xml->match_id"];
-        //$key = "$xml->leagueid,$xml->radiant_name,$xml->dire_name";
+        $key = "$xml->leagueid,$series_id,$xml->radiant_name,$xml->dire_name";
         if($xml->radiant_win == "true") $score = 10; else $score = 1;
         $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$xml->radiant_name,$xml->dire_name";
     }
