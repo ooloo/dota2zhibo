@@ -9,6 +9,16 @@
 
 	foreach($match_info as $key => $value)
     {
+        $karr = explode(',', $key);
+        $series_type = $karr[2];
+        $bo = 1;
+        if($series_type == 1)
+            $bo = 3;
+        else if($series_type == 2)
+            $bo = 5;
+        else
+            $bo = 1;
+
         $arr = explode(',', $value);
         $matid = $arr[0];
         $stime = $arr[1];
@@ -47,7 +57,8 @@
         }
         echo "<tr>\n";
         echo "<td width=10% style=\"vertical-align:middle\">$hour</td>";
-        echo "<td width=30% style=\"vertical-align:middle\">$ln</td>";
+        echo "<td width=30% style=\"vertical-align:middle\">$ln($karr[1])</td>";
+        echo "<td width=10% style=\"vertical-align:middle\">BO$bo</td>";
 
         $score = $match_score[$key];
         $r1 = floor((int)$score/10);

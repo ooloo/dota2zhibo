@@ -29,7 +29,6 @@ foreach($file as $line)
         $star_team = 1;
     }
 
-
     if(array_key_exists("$xml->match_id",$series))
         $series_id = $series["$xml->match_id"];
     else

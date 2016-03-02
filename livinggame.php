@@ -53,7 +53,7 @@ if(!empty($arr))
         {
             if(++$show_num >= 50) break;
 
-            $series_id["$match->match_id"] = "$match->series_id";
+            $series_id["$match->match_id"] = "$match->series_id,$match->series_type";
 
             $now = time();
             $mtime = "$match->start_time";
