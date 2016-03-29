@@ -1,10 +1,27 @@
 <?php
 
-include "series.php";
+include "hot.php";
 
+$series = array();
 $match_info = array();
 $match_score = array();
 $regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
+
+foreach($hot as $id => $num)
+{
+    $content = file_get_contents("/tmp/$id.xml");
+    echo "/tmp/$id.xml\n";
+
+    $xml = simplexml_load_string($content);
+
+    $show_num = 0;
+    foreach($xml->matches->match as $match)
+    {
+        if(++$show_num >= 100) break;
+
+        $series["$match->match_id"] = "$match->series_id,$match->series_type";
+    }
+}
 
 $file = file("/tmp/matches_filelist") or exit("Unable to open file!");
 foreach($file as $line)

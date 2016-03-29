@@ -52,8 +52,10 @@ foreach($file as $line)
         continue;
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
-    if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
+    if($xml->human_players != "10")
         continue;
+    //if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
+    //    continue;
 
     array_push($hot, "$xml->leagueid");
 
@@ -166,7 +168,7 @@ foreach($kda as $k => $v)
         $all = $all + $h_arr["all"];
     }
 
-    if($all < 10)
+    if($all < 8)
         unset($kda[$k]);
     else
         $kda[$k] = array_splice($v, 0, 3);

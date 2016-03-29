@@ -8,13 +8,12 @@ $content = file_get_contents("/tmp/GetLiveLeagueGames.xml");
 if(empty($content)) exit;
 
 $arr = $hot;
-$series_id = array();
 
 $xml = simplexml_load_string($content);
 
 foreach($xml->games->game as $game)
 {
-    if($game->league_tier == 2 || $game->league_tier == 3)
+    if($game->league_tier != 1)
     {
         $l = $game->league_id;
         $arr["$l"] = 1;
@@ -53,14 +52,18 @@ if(!empty($arr))
         {
             if(++$show_num >= 50) break;
 
-            $series_id["$match->match_id"] = "$match->series_id,$match->series_type";
+            $player_list = $match->players->player;
+            $player_count = $player_list->count();
+            //echo "$player_count\n";
+            if($player_count != 10) continue;
 
             $now = time();
             $mtime = "$match->start_time";
-            if($now - $mtime > 86400*8) continue;
+            if($now - $mtime > 86400*2) continue;
 
             $m_url = "$head/GetMatchDetails/$key&match_id=$match->match_id";
             $match_file = "/tmp/$match->match_id.xml";
+            echo "$match_file\n";
             if(!file_exists($match_file) || filesize($match_file) < 1024)
             {
                 echo "$match_file\n";
@@ -70,9 +73,5 @@ if(!empty($arr))
         }
     }
 }
-
-$handle = fopen("./series.php", "w+");
-fwrite($handle, '<?php'.chr(10).'$series='.var_export ($series_id,true).';'.chr(10).'?>');
-fclose($handle);
 
 ?>
