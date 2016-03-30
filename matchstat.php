@@ -34,7 +34,8 @@ $team = array(
         "1075534" => "Orange Esports Dota",
         );
 
-$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
+//$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
+$regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit/i';
 
 $file = file("/tmp/matches_filelist") or exit("Unable to open file!");
 foreach($file as $line)
@@ -54,8 +55,6 @@ foreach($file as $line)
         continue;
     if($xml->human_players != "10")
         continue;
-    //if(!preg_match($regex, $xml->radiant_name) && !preg_match($regex, $xml->dire_name))
-    //    continue;
 
     array_push($hot, "$xml->leagueid");
 
@@ -65,6 +64,7 @@ foreach($file as $line)
     {
         $key = dba_fetch("$player->account_id", $odbh);
         if($key == "") continue;
+        if(!preg_match($regex, $key)) continue;
 
         $name = $heroes_arr["$player->hero_id"];
 
