@@ -19,7 +19,10 @@ foreach($hot as $id => $num)
     {
         if(++$show_num >= 100) break;
 
-        $series["$match->match_id"] = "$match->series_id,$match->series_type";
+        if($match->radiant_team_id == "0" || $match->dire_team_id == "0")
+            continue;
+
+        $series["$match->match_id"] = "$match->series_id,$match->series_type,$match->radiant_team_id,$match->dire_team_id";
     }
 }
 
@@ -35,33 +38,39 @@ foreach($file as $line)
 
     $xml = simplexml_load_string($content);
 
-    if(empty($xml->radiant_name) || empty($xml->dire_name))
-        continue;
+    $star_team = 0;
+    //if(preg_match($regex, $xml->radiant_name) || preg_match($regex, $xml->dire_name))
+    //{
+    //    $star_team = 1;
+    //}
+
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
 
-    $star_team = 0;
-    if(preg_match($regex, $xml->radiant_name) || preg_match($regex, $xml->dire_name))
-    {
-        $star_team = 1;
-    }
-
     if(array_key_exists("$xml->match_id",$series))
-        $series_id = $series["$xml->match_id"];
+    {
+        $seriesTerm = split(',',$series["$xml->match_id"]);
+        $series_id = $seriesTerm[0];
+        $series_type = $seriesTerm[1];
+        $radiant_team_id = $seriesTerm[2];
+        $dire_team_id = $seriesTerm[3];
+    }
     else
         continue;
+    
+    if($series_id == "0") $series_id = $xml->match_id;
 
-    if(strcmp($xml->radiant_name,$xml->dire_name) > 0)
+    if(strcmp($radiant_team_id,$dire_team_id) > 0)
     {
-        $key = "$xml->leagueid,$series_id,$xml->dire_name,$xml->radiant_name";
+        $key = "$xml->leagueid,$series_id,$series_type";
         if($xml->radiant_win == "true") $score = 1; else $score = 10;
-        $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$xml->dire_name,$xml->radiant_name";
+        $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$dire_team_id,$radiant_team_id";
     }
     else
     {
-        $key = "$xml->leagueid,$series_id,$xml->radiant_name,$xml->dire_name";
+        $key = "$xml->leagueid,$series_id,$series_type";
         if($xml->radiant_win == "true") $score = 10; else $score = 1;
-        $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$xml->radiant_name,$xml->dire_name";
+        $match_info[$key] = "$xml->match_id,$xml->start_time,$xml->leagueid,$star_team,$radiant_team_id,$dire_team_id";
     }
 
     if(array_key_exists("$key",$match_score))

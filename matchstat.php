@@ -49,12 +49,13 @@ foreach($file as $line)
 
     $xml = simplexml_load_string($content);
 
-    if(empty($xml->radiant_name) || empty($xml->dire_name))
-        continue;
+    //if(empty($xml->radiant_name) || empty($xml->dire_name))
+      //  continue;
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
     if($xml->human_players != "10")
         continue;
+
 
     array_push($hot, "$xml->leagueid");
 
@@ -168,14 +169,13 @@ foreach($kda as $k => $v)
         $all = $all + $h_arr["all"];
     }
 
-    if($all < 8)
+    if($all < 1)
         unset($kda[$k]);
     else
-        $kda[$k] = array_splice($v, 0, 3);
+        $kda[$k] = array_splice($v, 0, 5);
 }
 
 ksort($kda);
-
 
 $handle = fopen("./stat.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$stat='.var_export ($stat,true).';'.chr(10).'?>');
