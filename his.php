@@ -1,6 +1,7 @@
 <?php
 
     include "lea.php";
+    include "team.php";
     include "match_info.php";
     include "match_score.php";
 
@@ -24,8 +25,8 @@
         $stime = $arr[1];
         $leaid = $arr[2];
         $star = $arr[3];
-        $aside = $arr[4];
-        $bside = $arr[5];
+        $aside = $team["$arr[4]"];
+        $bside = $team["$arr[5]"];
 
         $ln = $lea[$leaid];
         $d1 = date('Y-m-d H:i', (int)($stime));
@@ -57,7 +58,8 @@
         }
         echo "<tr>\n";
         echo "<td width=10% style=\"vertical-align:middle\">$hour</td>";
-        echo "<td width=30% style=\"vertical-align:middle\">$ln($karr[1])</td>";
+        //echo "<td width=30% style=\"vertical-align:middle\">$ln($karr[1])</td>";
+        echo "<td width=30% style=\"vertical-align:middle\">$ln</td>";
         echo "<td width=10% style=\"vertical-align:middle\">BO$bo</td>";
 
         $score = $match_score[$key];

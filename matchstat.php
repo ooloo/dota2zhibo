@@ -13,27 +13,6 @@ $lea = array();
 $hot = array();
 $kda = array();
 
-$team = array(
-        "20" => "TongFu|",
-        "36" => "Natus Vincere",
-        "2163" => "Team Liquid",
-        "39" => "Evil Geniuses",
-        "15" => "LGD-GAMING",
-        "999689" => "Titan",
-        "726228" => "Vici_ Gaming",
-        "5" => "Invictus Gaming",
-        "1333179" => "Cloud nine dota2",
-        "1375614" => "Newbee_",
-        "40" => "Virtus.Pro",
-        "26" => "mousesports",
-        "7" => "DK",
-        "111474" => "Alliance",
-        "1312775" => "CIS-Game",
-        "350190" => "Fnatic.",
-        "46" => "Team Empire",
-        "1075534" => "Orange Esports Dota",
-        );
-
 //$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
 $regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit/i';
 
@@ -187,10 +166,6 @@ fclose($handle);
 
 $handle = fopen("./hot.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$hot='.var_export (array_count_values($hot),true).';'.chr(10).'?>');
-fclose($handle);
-
-$handle = fopen("./team.php", "w+");
-fwrite($handle, '<?php'.chr(10).'$team='.var_export ($team,true).';'.chr(10).'?>');
 fclose($handle);
 
 $handle = fopen("./lea.php", "w+");
