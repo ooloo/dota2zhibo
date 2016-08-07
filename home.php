@@ -71,18 +71,26 @@ padding-right: 10px;
     echo "<br><BR><BR><div class=\"left\">";
     
     include "live.php";
-    include "schedule.php";
 
-	foreach($schedule as $k => $v)
+    $json = file_get_contents("/tmp/schedule.json");
+    //$array = json_decode(substr($json, 1, -1), true); 
+    $array = json_decode($json, true);
+    $lastday = "";
+    print_r($array);
+    //$gamelist = array_reverse($array['list']);
+    $gamelist = $array['list'];
+	foreach($gamelist as $arr)
     {
-        $arr = explode(',', $v);
-        $title = $arr[2];
-        $aside = $arr[4];
-        $bside = $arr[5];
-        $bo = $arr[3];
+        $title = $arr['title'];
+        $aside = $arr['aside'];
+        $bside = $arr['bside'];
+        $bo = $arr['bonum'];
+        $result = $arr['pointresult'];
+        $endtime = $arr['gameendtime'];
 
-        $hour = $arr[1];
-        $day = $arr[0];
+        $day = split(' ',$endtime);
+        $hour = $day[1];
+        $day = $day[0];
 
         //$curTime = time() - 86400*3;
         //if(strtotime($day) <= $curTime) continue;
@@ -90,7 +98,7 @@ padding-right: 10px;
         $weekarray=array("日","一","二","三","四","五","六");
         $week = "星期".$weekarray[date('w',strtotime($day))]; 
 
-        $result = "VS.";
+        if($result == "-" || $result == "") $result = "VS.";
 
         if($day != $lastday)
         {

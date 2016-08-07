@@ -10,11 +10,10 @@ foreach($xml->heroes->hero as $hero)
 $stat = array();
 $count = array();
 $lea = array();
-$hot = array();
+$hot = array("4664");
 $kda = array();
 
-//$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
-$regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit/i';
+$regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit|^coL|^Na`Vi|^TNC|^ESC/i';
 
 $file = file("/tmp/matches_filelist") or exit("Unable to open file!");
 foreach($file as $line)
@@ -148,10 +147,10 @@ foreach($kda as $k => $v)
         $all = $all + $h_arr["all"];
     }
 
-    if($all < 1)
+    if($all < 3)
         unset($kda[$k]);
     else
-        $kda[$k] = array_splice($v, 0, 5);
+        $kda[$k] = array_splice($v, 0, 3);
 }
 
 ksort($kda);
