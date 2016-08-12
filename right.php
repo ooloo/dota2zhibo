@@ -10,10 +10,10 @@
     echo "<div class=\"panel panel-primary\">";
     echo "<div class=\"panel-heading\">比赛直播</div>\n";
     echo "<ul class=\"list-group\">\n";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.alidota.com/'>阿里dota</a></li>";
+    //echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.alidota.com/'>阿里dota</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.douyutv.com/directory/game/DOTA2'>斗鱼tv</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huomaotv.com/live_list?gid=23'>火猫tv</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huya.com/g/dota2'>虎牙直播</a></li>";
+    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huomao.com/channel/dota2'>火猫tv</a></li>";
+    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.panda.tv/cate/dota2'>熊猫tv</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.zhanqi.tv/games/dota2'>战棋tv</a></li>";
 	echo "</ul></div>";
 
@@ -21,7 +21,7 @@
     echo "<div class=\"panel-heading\">热门资讯</div>\n";
     echo "<ul class=\"list-group\">\n";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://dota2.sgamer.com/'>sgamer资讯</a></li>";
-    echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.dota2lounge.com/'>d2l交易菠菜</a></li>";
+    echo "<li class=\"list-group-item\"><a target='_blank' href='http://dota2lounge.com/'>d2l交易菠菜</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://dota2.replays.net/'>replays资讯</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://dota2.uuu9.com/'>uuu9资讯</a></li>";
 	echo "</ul></div>";
@@ -33,12 +33,12 @@
 	foreach($leagues as $league)
 	{
         $l = "$league->leagueid";
-        if($hot["$l"] >= 5)
+        if($hot["$l"] >= 1)
 		    $name = $league->name;
         else
             continue;
 
-		echo "<li class=\"list-group-item\">";
+		echo "<li class=\"list-group-item\" style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>";
 		echo "<p><font color='green'>联赛id:$l</font></p>\n";
         //echo "<a target='_blank' href='$league->tournament_url' title='$league->description'>$name</a>\n";
         echo "<a target='_blank' href='$league->tournament_url'>$name</a>\n";

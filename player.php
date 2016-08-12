@@ -51,7 +51,7 @@ padding-right: 10px;
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
 </button>
-<a class="navbar-brand" href="">DOAT2 直播</a>
+<a class="navbar-brand" href="">DOTA2 直播</a>
 </div>
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
@@ -109,7 +109,7 @@ padding-right: 10px;
             echo "<td><img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
             echo " width='48' /></td>\n";
 
-            echo "<td>$all-$w-$l</td>";
+            echo "<td>$w-$l</td>";
             echo "<td>$wr%</td>";
             echo "<td>$kda</td>";
             echo "<td>$k</td>";

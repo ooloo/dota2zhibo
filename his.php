@@ -28,6 +28,8 @@
         $aside = $team["$arr[4]"];
         $bside = $team["$arr[5]"];
 
+        if($aside == "" || $bside == "") continue;
+
         $ln = $lea[$leaid];
         $d1 = date('Y-m-d H:i', (int)($stime));
 
@@ -49,26 +51,26 @@
             {
                 echo "</table></li></ul></div>\n";
             }
-            echo "<div class=\"panel panel-info\">";
+            echo "<div class=\"panel panel-danger\">";
             echo "<div class=\"panel-heading\">$day $week</div>\n";
             echo "<ul class=\"list-group\">\n";
             echo "<li class=\"list-group-item\">\n";
-            echo "<table class=\"table\">";
+            echo "<table class=\"table\" style='table-layout:fixed;'>";
             $lastday = $day;
         }
         echo "<tr>\n";
         echo "<td width=10% style=\"vertical-align:middle\">$hour</td>";
-        //echo "<td width=30% style=\"vertical-align:middle\">$ln($karr[1])</td>";
-        echo "<td width=30% style=\"vertical-align:middle\">$ln</td>";
+        //echo "<td width=40% style=\"vertical-align:middle\">$ln($karr[1])</td>";
+        echo "<td width=40% style=\"vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;\">$ln</td>";
         echo "<td width=10% style=\"vertical-align:middle\">BO$bo</td>";
 
         $score = $match_score[$key];
         $r1 = floor((int)$score/10);
         $r2 = floor((int)$score%10);
         if($star == 1)
-            echo "<td width=50%><b>$aside<font color=green>&nbsp;$r1:$r2&nbsp;</font>$bside</b></td>";
+            echo "<td width=40% noWrap=\"noWrap\"><b>$aside<font color=green>&nbsp;$r1:$r2&nbsp;</font>$bside</b></td>";
         else
-            echo "<td width=50%>$aside<font color=green><b>&nbsp;$r1:$r2&nbsp;</b></font>$bside</td>";
+            echo "<td width=40% noWrap=\"noWrap\">$aside<font color=green><b>&nbsp;$r1:$r2&nbsp;</b></font>$bside</td>";
         echo "</tr>\n";
     }
     echo "</table></li></ul></div>\n";

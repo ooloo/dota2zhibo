@@ -115,6 +115,8 @@ padding-right: 10px;
         echo "</li></ul></div>\n";
     }
 
+    include "his.php";
+
     echo "</div>\n";
     // -------------left end--------------
 
