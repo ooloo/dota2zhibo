@@ -68,31 +68,31 @@ padding-right: 10px;
 <DIV id=m>
 
 <?php
-    include "kda.php";
+    include "teaminfo.php";
 
     echo "<br><BR><BR><div class=\"left\">";
 
     function show_account($k, $v)
     {
-        global $kda;
+        global $teaminfo;
 
         echo "<div class=\"panel panel-info\">";
-        echo "<div class=\"panel-heading\">$k &nbsp;&nbsp;一周出场英雄TOP3</div>\n";
+        echo "<div class=\"panel-heading\">$k 队员一周出场英雄TOP3</div>\n";
         echo "<ul class=\"list-group\">\n";
         echo "<li class=\"list-group-item\">\n";
         echo "<table class=\"table\">";
         echo "<tr>";
-        echo "<th width=15%>Heroes</th>";
-        echo "<th width=15%>Matches</th>";
-        echo "<th width=15%>Winrate</th>";
-        echo "<th width=15%>KDA</th>";
-        echo "<th width=13%>Kill</th>";
-        echo "<th width=13%>Death</th>";
-        echo "<th width=13%>Assist</th>";
+        echo "<th width=20%>Player</th>";
+        echo "<th width=30%>Heroes</th>";
+        echo "<th width=10%>Matches</th>";
+        echo "<th width=10%>KDA</th>";
+        echo "<th width=10%>Kill</th>";
+        echo "<th width=10%>Death</th>";
+        echo "<th width=10%>Assist</th>";
         echo "</tr>";
-        foreach($v as $hero => $h_arr)
+        foreach($v as $player => $h_arr)
         {
-            $all = $h_arr["all"];
+            $h = $h_arr["h"];
             $w = $h_arr["w"];
             $l = $h_arr["l"];
             $k = $h_arr["k"];
@@ -105,12 +105,16 @@ padding-right: 10px;
             $wr = $w/$all * 100;
             $wr = round($wr, 0);
 
-            echo "<tr>";
-            echo "<td><img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
-            echo " width='48' /></td>\n";
+            echo "<tr><td>$player</td><td>";
+            $heroList = split('\|', $h);
+            foreach($heroList as $hero)
+            {
+                echo "<img src='http://cdn.dota2.com/apps/dota2/images/heroes/${hero}_sb.png'";
+                echo "width='45'style='margin-right:2px'/>\n";
+            }
+            echo "</td>\n";
 
             echo "<td>$w-$l</td>";
-            echo "<td>$wr%</td>";
             echo "<td>$kda</td>";
             echo "<td>$k</td>";
             echo "<td>$d</td>";
@@ -120,8 +124,9 @@ padding-right: 10px;
         echo "</table></li></ul></div>\n";
     }
 
-    foreach($kda as $k => $v)
+    foreach($teaminfo as $k => $v)
     {
+        if(sizeof($v) < 3) continue;
         show_account($k, $v);
     }
 

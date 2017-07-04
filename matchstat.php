@@ -10,8 +10,9 @@ foreach($xml->heroes->hero as $hero)
 $stat = array();
 $count = array();
 $lea = array();
-$hot = array("4664");
+$hot = array("5401");
 $kda = array();
+$teaminfo = array();
 
 $regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit|^coL|^Na`Vi|^TNC|^ESC/i';
 
@@ -141,19 +142,41 @@ arsort($count);
 
 foreach($kda as $k => $v)
 {
-    $all = 0;
-    foreach($v as $hero => $h_arr)
-    {
-        $all = $all + $h_arr["all"];
-    }
-
-    if($all < 3)
-        unset($kda[$k]);
-    else
-        $kda[$k] = array_splice($v, 0, 3);
+    $kda[$k] = array_splice($v, 0, 3);
 }
 
-ksort($kda);
+foreach($kda as $k => $v)
+{
+    list($teamName, $playerName)= split("[\@]", $k, 2);
+    if(!isset($teaminfo["$teamName"]))
+        $teaminfo["$teamName"] = array();
+    foreach($v as $hero => $h_arr)
+    {
+        echo "$hero\n";
+        if(!isset($teaminfo["$teamName"]["$playerName"]))
+        {
+            $teaminfo["$teamName"]["$playerName"] = array(
+                    "h" => "$hero",
+                    "w" => $h_arr["w"],
+                    "l" => $h_arr["l"],
+                    "k" => $h_arr["k"],
+                    "d" => $h_arr["d"],
+                    "a" => $h_arr["a"],
+                    );
+        }
+        else
+        {
+            $teaminfo["$teamName"]["$playerName"]["h"] = $teaminfo["$teamName"]["$playerName"]["h"]."|$hero";
+            $teaminfo["$teamName"]["$playerName"]["w"] = $teaminfo["$teamName"]["$playerName"]["w"]+$h_arr["w"];
+            $teaminfo["$teamName"]["$playerName"]["l"] = $teaminfo["$teamName"]["$playerName"]["l"]+$h_arr["l"];
+            $teaminfo["$teamName"]["$playerName"]["k"] = $teaminfo["$teamName"]["$playerName"]["k"]+$h_arr["k"];
+            $teaminfo["$teamName"]["$playerName"]["d"] = $teaminfo["$teamName"]["$playerName"]["d"]+$h_arr["d"];
+            $teaminfo["$teamName"]["$playerName"]["a"] = $teaminfo["$teamName"]["$playerName"]["a"]+$h_arr["a"];
+        }
+    }
+}
+
+//ksort($kda);
 
 $handle = fopen("./stat.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$stat='.var_export ($stat,true).';'.chr(10).'?>');
@@ -171,8 +194,8 @@ $handle = fopen("./lea.php", "w+");
 fwrite($handle, '<?php'.chr(10).'$lea='.var_export ($lea,true).';'.chr(10).'?>');
 fclose($handle);
 
-$handle = fopen("./kda.php", "w+");
-fwrite($handle, '<?php'.chr(10).'$kda='.var_export ($kda,true).';'.chr(10).'?>');
+$handle = fopen("./teaminfo.php", "w+");
+fwrite($handle, '<?php'.chr(10).'$teaminfo='.var_export ($teaminfo,true).';'.chr(10).'?>');
 fclose($handle);
 
 ?>
