@@ -1,15 +1,15 @@
 #get base info
-* * * * * wget -T 30 -O /tmp/live "https://api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/live); then mv /tmp/live /tmp/GetLiveLeagueGames.xml; fi > /dev/null 2>&1
-0 * * * * wget -O /tmp/league "https://api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/league); then mv /tmp/league /tmp/GetLeagueListing.xml; fi > /dev/null 2>&1 
-0 3 * * * wget -O /tmp/hero "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/hero); then mv -f /tmp/hero /tmp/heroes.xml; fi > /dev/null 2>&1
+* * * * * root wget -T 30 -O /tmp/live "https://api.steampowered.com/IDOTA2Match_570/GetLiveLeagueGames/V0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/live); then mv /tmp/live /tmp/GetLiveLeagueGames.xml; fi > /dev/null 2>&1
+0 * * * * root wget -O /tmp/league "https://api.steampowered.com/IDOTA2Match_570/GetLeagueListing/V0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/league); then mv /tmp/league /tmp/GetLeagueListing.xml; fi > /dev/null 2>&1 
+0 3 * * * root wget -O /tmp/hero "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?language=zh&key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml"; if (test -s /tmp/hero); then mv -f /tmp/hero /tmp/heroes.xml; fi > /dev/null 2>&1
 
 #update match info
-*/5 * * * * cd /root/htdocs/; php livinggame.php; > /dev/null 2>&1
-*/10 * * * * cd /root/htdocs/; php match_schedule.php; > /dev/null 2>&1
-*/10 * * * * find /tmp -mtime +15 | xargs rm -f; ls -r /tmp/ | grep '[0-9]\{9,10\}.xml' > /tmp/matches_filelist; cd /root/htdocs/; php matchstat.php ; php match_stat.php > /dev/null 2>&1
+*/5 * * * * root cd /root/htdocs/; php livinggame.php; > /dev/null 2>&1
+*/10 * * * * root cd /root/htdocs/; php match_schedule.php; > /dev/null 2>&1
+*/10 * * * * root find /tmp -mtime +15 | xargs rm -f; ls -r /tmp/ | grep '[0-9]\{9,10\}.xml' > /tmp/matches_filelist; cd /root/htdocs/; php matchstat.php ; php match_stat.php > /dev/null 2>&1
 
 #get official info
-0 4 * * * find /tmp -mmin -1440 | grep '[0-9]\{9,10\}.xml' > /tmp/officialname_filelist; cd /root/htdocs/; php officialname.php ;php officialteam.php > /dev/null 2>&1
+0 4 * * * root find /tmp -mmin -1440 | grep '[0-9]\{9,10\}.xml' > /tmp/officialname_filelist; cd /root/htdocs/; php officialname.php ;php officialteam.php > /dev/null 2>&1
 
 #clear net
-4 * * * * killall -9 wget > /dev/null 2>&1
+4 * * * * root killall -9 wget > /dev/null 2>&1
