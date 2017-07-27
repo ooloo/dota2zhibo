@@ -13,18 +13,18 @@ $xml = simplexml_load_string($content);
 
 foreach($xml->games->game as $game)
 {
-    if($game->league_tier != 1)
+    if($game->league_tier != 1 && $game->league_id != 0)
     {
         $l = $game->league_id;
         $arr["$l"] = 1;
-    }
 
-    // record all players
-    foreach($game->players->player as $player)
-    {
-        $dbh = dba_open("/tmp/account.db", "c", "db4");
-        dba_replace("$player->account_id", "$player->name", $dbh);
-        dba_close($dbh);
+        // record all players
+        foreach($game->players->player as $player)
+        {
+            $dbh = dba_open("/tmp/account.db", "c", "db4");
+            dba_replace("$player->account_id", "$player->name", $dbh);
+            dba_close($dbh);
+        }
     }
 }
 
@@ -37,7 +37,6 @@ if(!empty($arr))
         $content = file_get_contents("$l_url");
         $conLen = strlen($content);
         echo "league_id=$id ($conLen)\n";
-
         if($conLen < 128)
         {
             continue;
@@ -68,7 +67,11 @@ if(!empty($arr))
             {
                 echo "$match_file\n";
                 $content = file_get_contents("$m_url");
-                file_put_contents("$match_file", "$content");
+                $conLen = strlen($content);
+                if($conLen > 12800)
+                {
+                    file_put_contents("$match_file", "$content");
+                }
             }
         }
     }
