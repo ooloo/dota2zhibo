@@ -31,6 +31,8 @@
         if($aside == "" || $bside == "") continue;
 
         $ln = $lea[$leaid];
+        if($ln == "") continue;
+
         $d1 = date('Y-m-d H:i', (int)($stime));
 
         $matchtime = split(' ',$d1);

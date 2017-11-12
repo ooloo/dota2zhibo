@@ -51,7 +51,7 @@ padding-right: 10px;
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
 </button>
-<a class="navbar-brand" href="">DOAT2 直播</a>
+<a class="navbar-brand" href="">DOTA2 直播</a>
 </div>
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
@@ -59,7 +59,7 @@ padding-right: 10px;
 <li><a href="http://dota2zhibo.com/player.php">Player</a></li>
 <li><a href="http://dota2zhibo.com/heroes.php">Heroes</a></li>
 <li class="active"><a href="http://dota2zhibo.com/history.php">History</a></li>
-<li><a href="http://dota2zhibo.com/about.php">About</a></li>
+<li><a href="http://dota2zhibo.com/about.php">Updates</a></li>
 </ul>
 </div><!--/.nav-collapse -->
 </div>

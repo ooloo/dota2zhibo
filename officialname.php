@@ -1,6 +1,7 @@
 <?php
 
 $official_account = array();
+
 $key = "v1/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
 $head = "https://api.steampowered.com/IDOTA2Fantasy_570/GetPlayerOfficialInfo";
 
@@ -31,10 +32,10 @@ foreach($official_account as $accid => $playerurl)
 
     if(!empty($xml->Name) && !empty($xml->TeamTag))
     {
-        $dbh = dba_open("/tmp/official_account.db", "c", "db4");
-        dba_replace("$accid", "$xml->TeamTag.$xml->Name", $dbh);
+        $dbh = dba_open("official_account.db", "c", "db4");
+        dba_replace("$accid", "$xml->TeamTag@$xml->Name", $dbh);
         dba_close($dbh);
-        echo "$accid $xml->TeamTag.$xml->Name\n";
+        echo "$accid $xml->TeamTag@$xml->Name\n";
     }
 }
 

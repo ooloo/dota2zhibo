@@ -2,7 +2,7 @@
 
 $schedule = array();
 
-for($cnt=0; $cnt<5; $cnt++)
+for($cnt=0; $cnt<7; $cnt++)
 {
     $day = date('Y-m-d', strtotime("$cnt day"));
     echo $day;

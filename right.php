@@ -1,7 +1,7 @@
 <?php
     include "hot.php";
 
-    $content = file_get_contents("/tmp/GetLeagueListing.xml");
+    $content = file_get_contents("GetLeagueListing.xml");
 	$xml = simplexml_load_string($content);
 	$leagues = $xml->leagues[0];
 
@@ -10,7 +10,7 @@
     echo "<div class=\"panel panel-primary\">";
     echo "<div class=\"panel-heading\">比赛直播</div>\n";
     echo "<ul class=\"list-group\">\n";
-    //echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.alidota.com/'>阿里dota</a></li>";
+    //echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.dota2zhibo.com/'>阿里dota</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.douyutv.com/directory/game/DOTA2'>斗鱼tv</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.huomao.com/channel/dota2'>火猫tv</a></li>";
     echo "<li class=\"list-group-item\"><a target='_blank' href='http://www.panda.tv/cate/dota2'>熊猫tv</a></li>";

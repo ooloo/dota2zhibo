@@ -126,7 +126,8 @@ padding-right: 10px;
 
     foreach($teaminfo as $k => $v)
     {
-        if(sizeof($v) < 3) continue;
+        //if(sizeof($v) < 4 or sizeof($v) > 6) continue;
+        if(sizeof($v) != 5) continue;
         show_account($k, $v);
     }
 

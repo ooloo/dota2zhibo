@@ -99,14 +99,16 @@ padding-right: 10px;
                 echo "</table>";
                 echo "</li></ul></div>\n";
             }
-            echo "<div class=\"panel panel-info\">";
+            echo "<div class=\"panel panel-success\">";
             echo "<div class=\"panel-heading\">$day $week</div>\n";
             echo "<ul class=\"list-group\">\n";
             echo "<li class=\"list-group-item\">\n";
-            echo "<table class=\"table\">";
+            echo "<table class=\"table\" style='table-layout:fixed;'>";
             $lastday = $day;
         }
-        echo "<tr><td width=10%>$hour</td><td width=40%>$title</td><td width=10%>BO$bo</td>";
+        echo "<tr><td width=10%>$hour</td>";
+        echo "<td width=40% style=\"vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;\">$title</td>";
+        echo "<td width=10%>BO$bo</td>";
         echo "<td width=40%>$aside <font color=green><b>$result</b></font> $bside</td></tr>";
     }
     if($lastday != "")

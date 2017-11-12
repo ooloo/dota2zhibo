@@ -78,8 +78,8 @@ $team = array(
 
 $official_team = array();
 
-$key = "v1/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
-$head = "https://api.steampowered.com/IDOTA2Teams_570/GetTeamInfo";
+$key = "v1/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh&teams_requested=200";
+$head = "https://api.steampowered.com/IDOTA2Match_570/GetTeamInfoByTeamID";
 
 foreach($hot as $id => $num)
 {
@@ -96,31 +96,36 @@ foreach($hot as $id => $num)
         if($match->radiant_team_id == "0" || $match->dire_team_id == "0")
             continue;
 
-        $teamurl = "$head/$key&team_id=$match->radiant_team_id";
+        $teamurl = "$head/$key&start_at_team_id=$match->radiant_team_id";
         $official_team["$match->radiant_team_id"] = "$teamurl";
 
-        $teamurl = "$head/$key&team_id=$match->dire_team_id";
+        $teamurl = "$head/$key&start_at_team_id=$match->dire_team_id";
         $official_team["$match->dire_team_id"] = "$teamurl";
     }
 }
 
 foreach($official_team as $teamid => $teamurl)
 {
+    echo "$teamurl\n";
     $content = file_get_contents("$teamurl");
 
     if(strlen("$content") < 1024) continue;
 
     $xml = simplexml_load_string($content);
-    $tag =$xml->teams->message->tag;
 
-    if(!empty($tag))
+    foreach($xml->teams->team as $t)
     {
-        $dbh = dba_open("/tmp/official_team.db", "c", "db4");
-        dba_replace("$teamid", "$tag", $dbh);
-        dba_close($dbh);
+        $tag = $t->tag;
 
-        $team["$teamid"] = "$tag";
-        echo "$teamid $tag\n";
+        if(!empty($tag))
+        {
+            $dbh = dba_open("official_team.db", "c", "db4");
+            dba_replace("$teamid", "$tag", $dbh);
+            dba_close($dbh);
+
+            $team["$teamid"] = "$tag";
+            echo "$teamid $tag\n";
+        }
     }
 }
 

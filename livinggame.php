@@ -4,7 +4,7 @@ include "hot.php";
 $key = "V001/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
 $head = "https://api.steampowered.com/IDOTA2Match_570";
 
-$content = file_get_contents("/tmp/GetLiveLeagueGames.xml");
+$content = file_get_contents("GetLiveLeagueGames.xml");
 if(empty($content)) exit;
 
 $arr = $hot;
@@ -21,7 +21,7 @@ foreach($xml->games->game as $game)
         // record all players
         foreach($game->players->player as $player)
         {
-            $dbh = dba_open("/tmp/account.db", "c", "db4");
+            $dbh = dba_open("account.db", "c", "db4");
             dba_replace("$player->account_id", "$player->name", $dbh);
             dba_close($dbh);
         }

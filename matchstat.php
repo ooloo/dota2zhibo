@@ -1,5 +1,5 @@
 <?php
-$content = file_get_contents("/tmp/heroes.xml");
+$content = file_get_contents("GetHeroesListing.xml");
 $xml = simplexml_load_string($content);
 $heroes_arr = array("0" => "NULL");
 $len = strlen("npc_dota_hero_");
@@ -39,7 +39,7 @@ foreach($file as $line)
     array_push($hot, "$xml->leagueid");
 
     //history
-    $odbh = dba_open("/tmp/official_account.db", "r", "db4");
+    $odbh = dba_open("official_account.db", "c", "db4");
     foreach($xml->players->player as $player)
     {
         $key = dba_fetch("$player->account_id", $odbh);
@@ -127,7 +127,7 @@ foreach($file as $line)
     }
 }
 
-$content = file_get_contents("/tmp/GetLeagueListing.xml");
+$content = file_get_contents("GetLeagueListing.xml");
 $xml = simplexml_load_string($content);
 $leagues = $xml->leagues[0];
 
@@ -147,12 +147,12 @@ foreach($kda as $k => $v)
 
 foreach($kda as $k => $v)
 {
+    echo "----------- $k\n";
     list($teamName, $playerName)= split("[\@]", $k, 2);
     if(!isset($teaminfo["$teamName"]))
         $teaminfo["$teamName"] = array();
     foreach($v as $hero => $h_arr)
     {
-        echo "$hero\n";
         if(!isset($teaminfo["$teamName"]["$playerName"]))
         {
             $teaminfo["$teamName"]["$playerName"] = array(
