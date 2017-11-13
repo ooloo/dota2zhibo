@@ -4,10 +4,11 @@ include "hot.php";
 $key = "V001/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
 $head = "https://api.steampowered.com/IDOTA2Match_570";
 
-$content = file_get_contents("GetLiveLeagueGames.xml");
+$content = file_get_contents("/tmp/GetLiveLeagueGames.xml");
 if(empty($content)) exit;
 
-$arr = $hot;
+//$arr = $hot;
+$arr = array();
 
 $xml = simplexml_load_string($content);
 
@@ -15,6 +16,18 @@ foreach($xml->games->game as $game)
 {
     if($game->league_tier != 1 && $game->league_id != 0)
     {
+        // rewrite GetLiveLeagueGames.xml 
+        //$item = $xml->addChild('game');
+        //$node = $item->addChild("league_id", $game->league_id);
+        //$node = $item->addChild("radiant_teami_id", $game->radiant_team->team_id);
+        //$node = $item->addChild("dire_team_id", $game->dire_team->team_id);
+        //$node = $item->addChild("spectators", $game->spectators);
+        //$node = $item->addChild("league_tier", $game->league_tier);
+        //$node = $item->addChild("series_type", $game->series_type);
+        //$node = $item->addChild("radiant_score", $game->scoreboard->radiant->score);
+        //$node = $item->addChild("dire_score", $game->scoreboard->dire->score);
+
+        // add league list
         $l = $game->league_id;
         $arr["$l"] = 1;
 
@@ -27,6 +40,8 @@ foreach($xml->games->game as $game)
         }
     }
 }
+
+echo "GetLiveLeagueGames Done, Ready to get match content.\n";
 
 if(!empty($arr))
 {
@@ -49,7 +64,7 @@ if(!empty($arr))
         $show_num = 0;
         foreach($xml->matches->match as $match)
         {
-            if(++$show_num >= 50) break;
+            if((++$show_num) >= 10) break;
 
             $player_list = $match->players->player;
             $player_count = $player_list->count();
@@ -65,7 +80,6 @@ if(!empty($arr))
             echo "$match_file\n";
             if(!file_exists($match_file) || filesize($match_file) < 1024)
             {
-                echo "$match_file\n";
                 $content = file_get_contents("$m_url");
                 $conLen = strlen($content);
                 if($conLen > 12800)
