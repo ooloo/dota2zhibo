@@ -23,8 +23,8 @@ foreach($xml->games->game as $game)
 
     //if($game->league_tier == "1") continue;
 
-    if(empty($r))   { $r = "天辉#noname#"; continue; }
-    if(empty($d))   { $d = "夜魇#noname#"; continue; }
+    //if(empty($r))   { $r = "天辉#noname#"; continue; }
+    //if(empty($d))   { $d = "夜魇#noname#"; continue; }
 
     $duration = $game->scoreboard->duration;
 

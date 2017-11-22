@@ -5,7 +5,6 @@ include "hot.php";
 $series = array();
 $match_info = array();
 $match_score = array();
-$regex = '/Alliance|CDEC|Digital Chaos|EHOME|Empire|Evil|Fantastic|Fantuan|Fnatic|Invictus|LGD|Liquid|Mineski|MVP|Navi|NewBee|OG Dota2|Team Secret|Team. Spirit|TongFu|Vega|Vici|Virtus|Wings/i';
 
 foreach($hot as $id => $num)
 {
@@ -39,10 +38,6 @@ foreach($file as $line)
     $xml = simplexml_load_string($content);
 
     $star_team = 0;
-    //if(preg_match($regex, $xml->radiant_name) || preg_match($regex, $xml->dire_name))
-    //{
-    //    $star_team = 1;
-    //}
 
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;

@@ -1,4 +1,6 @@
 <?php
+include "tier.php";
+
 $content = file_get_contents("GetHeroesListing.xml");
 $xml = simplexml_load_string($content);
 $heroes_arr = array("0" => "NULL");
@@ -14,7 +16,7 @@ $hot = array("5401");
 $kda = array();
 $teaminfo = array();
 
-$regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit|^coL|^Na`Vi|^TNC|^ESC/i';
+$regex = '/^Alliance|^CDEC|^dc|^EHOME|^Empire|^EG|^Fnatic|^IG|^LGD|^Liquid|^Mski|^MVP|^Navi|^NewBee|^OG|^Secret|^TongFu|^Vega|^VG|^Wings|^TSpirit|^coL|^Na`Vi|^TNC|^ESC|^BOY|^TEAM|^SG|^LFY|^TS|^FE|^Kinguin|^PANDA|^ZB|^EWE|^RF|^CPS|^PMA|^RLP/i';
 
 $file = file("/tmp/matches_filelist") or exit("Unable to open file!");
 foreach($file as $line)
@@ -35,8 +37,10 @@ foreach($file as $line)
     if($xml->human_players != "10")
         continue;
 
-
     array_push($hot, "$xml->leagueid");
+
+    if(!key_exists("$xml->leagueid",$tier)) continue;
+    if($tier["$xml->leagueid"] == "1") continue;
 
     //history
     $odbh = dba_open("official_account.db", "c", "db4");
@@ -44,7 +48,7 @@ foreach($file as $line)
     {
         $key = dba_fetch("$player->account_id", $odbh);
         if($key == "") continue;
-        if(!preg_match($regex, $key)) continue;
+        //if(!preg_match($regex, $key)) continue;
 
         $name = $heroes_arr["$player->hero_id"];
 

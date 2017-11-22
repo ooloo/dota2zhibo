@@ -1,5 +1,6 @@
 <?php
 include "hot.php";
+include "tier.php";
 
 $key = "V001/?key=B1426000A46BD10C3FE0EAB36501A9E3&format=xml&language=zh";
 $head = "https://api.steampowered.com/IDOTA2Match_570";
@@ -29,7 +30,8 @@ foreach($xml->games->game as $game)
 
         // add league list
         $l = $game->league_id;
-        $arr["$l"] = 1;
+        $arr["$l"] = "$game->league_tier";
+        $tier["$l"] = "$game->league_tier";
 
         // record all players
         foreach($game->players->player as $player)
@@ -40,6 +42,10 @@ foreach($xml->games->game as $game)
         }
     }
 }
+
+$handle = fopen("./tier.php", "w+");
+fwrite($handle, '<?php'.chr(10).'$tier='.var_export ($tier,true).';'.chr(10).'?>');
+fclose($handle);
 
 echo "GetLiveLeagueGames Done, Ready to get match content.\n";
 
