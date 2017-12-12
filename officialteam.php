@@ -113,18 +113,21 @@ foreach($official_team as $teamid => $teamurl)
 
     $xml = simplexml_load_string($content);
 
+    $i = 0;
     foreach($xml->teams->team as $t)
     {
         $tag = $t->tag;
+        $tid = $teamid + $i;
+        $i++;
 
         if(!empty($tag))
         {
             $dbh = dba_open("official_team.db", "c", "db4");
-            dba_replace("$teamid", "$tag", $dbh);
+            dba_replace("$tid", "$tag", $dbh);
             dba_close($dbh);
 
-            $team["$teamid"] = "$tag";
-            echo "$teamid $tag\n";
+            $team["$tid"] = "$tag";
+            echo "$tid $tag\n";
         }
     }
 }

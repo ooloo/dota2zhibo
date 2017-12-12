@@ -21,10 +21,10 @@ foreach($xml->games->game as $game)
 
     if($ln=="") continue;
 
-    //if($game->league_tier == "1") continue;
+    if($game->league_tier == "0") continue;
 
-    //if(empty($r))   { $r = "天辉#noname#"; continue; }
-    //if(empty($d))   { $d = "夜魇#noname#"; continue; }
+    if(empty($r))   { $r = "天辉#noname#"; continue; }
+    if(empty($d))   { $d = "夜魇#noname#"; continue; }
 
     $duration = $game->scoreboard->duration;
 
@@ -41,11 +41,12 @@ foreach($xml->games->game as $game)
     $rscore = $game->scoreboard->radiant->score;
     $dscore = $game->scoreboard->dire->score;
 
+    $style = "style=\"vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;\"";
     echo "<tr>";
-    echo "<td width=10%>$dur</td>";
-    echo "<td width=40% style=\"vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;\">$ln($game->league_tier)</td>";
+    echo "<td width=10% $style>$dur</td>";
+    echo "<td width=40% $style>$ln($game->league_tier)</td>";
     echo "<td width=10%>BO$bo</td>";
-    echo "<td width=40%>$r ($rscore)<font color=green><b>&nbsp;.VS&nbsp;</b></font>($dscore) $d</td>";
+    echo "<td width=40% $style>$r ($rscore)<font color=green><b>&nbsp;.VS&nbsp;</b></font>($dscore) $d</td>";
     //echo "<td width=40%>$r <font color=green><b>&nbsp;.VS&nbsp;</b></font> $d</td>";
     echo "</tr>";
 }
