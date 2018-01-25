@@ -21,6 +21,7 @@ foreach($hot as $id => $num)
         if($match->radiant_team_id == "0" || $match->dire_team_id == "0")
             continue;
 
+        if($match->series_id == "0") $match->series_id = $match->match_id;
         $series["$match->match_id"] = "$match->series_id,$match->series_type,$match->radiant_team_id,$match->dire_team_id";
     }
 }
@@ -42,6 +43,11 @@ foreach($file as $line)
     if($xml->first_blood_time == "0" || empty($xml->first_blood_time))
         continue;
 
+    $series_id = $xml->match_id;
+    $series_type = 0; 
+    $radiant_team_id = $xml->radiant_team_id;
+    $dire_team_id = $xml->dire_team_id;
+
     if(array_key_exists("$xml->match_id",$series))
     {
         $seriesTerm = split(',',$series["$xml->match_id"]);
@@ -52,8 +58,6 @@ foreach($file as $line)
     }
     else
         continue;
-    
-    if($series_id == "0") $series_id = $xml->match_id;
 
     if(strcmp($radiant_team_id,$dire_team_id) > 0)
     {

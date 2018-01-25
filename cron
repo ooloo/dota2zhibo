@@ -6,7 +6,7 @@
 #update match info
 */10 * * * * root cd /var/www/; php livinggame.php; > /dev/null 2>&1
 */10 * * * * root cd /var/www/; php match_schedule.php; > /dev/null 2>&1
-5 * * * * root find /tmp -mtime +7 | xargs rm -f; ls -r /tmp/ | grep '[0-9]\{9,10\}.xml' > /tmp/matches_filelist; cd /var/www/ php matchstat.php ; php match_stat.php > /dev/null 2>&1
+5 * * * * root find /tmp -mtime +7 | xargs rm -f; ls -r /tmp/ | grep '[0-9]\{9,10\}.xml' > /tmp/matches_filelist; cd /var/www/; php matchstat.php; php match_stat.php > /dev/null 2>&1
 
 #get official info
 4 4 * * * root find /tmp -mmin -1440 | grep '[0-9]\{9,10\}.xml' > /tmp/officialname_filelist; cd /var/www/; php officialname.php ;php officialteam.php > /dev/null 2>&1
